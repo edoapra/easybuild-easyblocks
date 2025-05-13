@@ -232,8 +232,8 @@ class EB_NWChem(ConfigureMake):
                 libmpi += " -libumad -libverbs -lpthread"
 
         # compiler optimization flags: set environment variables _and_ add them to list of make options
-        self.setvar_env_makeopt('COPTIMIZE', os.getenv('CFLAGS'))
-        self.setvar_env_makeopt('FOPTIMIZE', os.getenv('FFLAGS'))
+        #self.setvar_env_makeopt('COPTIMIZE', os.getenv('CFLAGS'))
+        #self.setvar_env_makeopt('FOPTIMIZE', os.getenv('FFLAGS'))
 
         # BLAS and ScaLAPACK
         mpi_lib_dirs = ' '.join('-L' + d for d in os.getenv('MPI_LIB_DIR').split())
@@ -246,11 +246,7 @@ class EB_NWChem(ConfigureMake):
         self.setvar_env_makeopt('SCALAPACK', '%s %s' % (os.getenv('LDFLAGS'), os.getenv('LIBSCALAPACK_MT')))
         if self.toolchain.options['i8']:
             size = 8
-            self.setvar_env_makeopt('USE_SCALAPACK_I8', 'y')
-            self.cfg.update('lib_defines', '-DSCALAPACK_I8')
         else:
-            self.setvar_env_makeopt('HAS_BLAS', 'yes')
-            self.setvar_env_makeopt('USE_SCALAPACK', 'y')
             size = 4
 
         # set sizes
@@ -261,8 +257,8 @@ class EB_NWChem(ConfigureMake):
 
         env.setvar('LIB_DEFINES', self.cfg['lib_defines'])
 
-        # clean first (why not)
-        run_shell_cmd("make clean")
+        # clean first (why ?)
+        #run_shell_cmd("make clean")
 
         # configure build
         cmd = "make %s nwchem_config" % self.cfg['buildopts']
